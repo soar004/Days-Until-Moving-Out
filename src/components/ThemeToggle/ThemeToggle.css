@@ -1,0 +1,105 @@
+.theme-switch {
+  display: inline-block;
+  position: relative;
+  width: 56px;
+  height: 28px;
+}
+
+.theme-switch input {
+  /* hide the native checkbox */
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.theme-switch .slider {
+  position: absolute;
+  inset: 0;
+  background: #e0e0e0;
+  border-radius: 999px;
+  transition: background 0.3s;
+}
+
+/* the little white circle */
+.theme-switch .slider::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+/* sun & moon icons */
+.theme-switch .slider .sun,
+.theme-switch .slider .moon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.75rem;
+  pointer-events: none;
+}
+.theme-switch .slider .sun {
+  left: 6px;
+  color: #f1c40f;
+}
+.theme-switch .slider .moon {
+  right: 6px;
+  color: #555;
+  opacity: 0.6;
+}
+
+/* checked state */
+.theme-switch input:checked + .slider {
+  background: #999;
+}
+.theme-switch input:checked + .slider::before {
+  transform: translateX(28px);
+}
+.theme-switch input:checked + .slider .sun {
+  opacity: 0.6;
+}
+.theme-switch input:checked + .slider .moon {
+  opacity: 1;
+}
+
+.theme-switch .slider .sun {
+  left: 6px;
+  color: #f1c40f;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+.theme-switch .slider .moon {
+  right: 6px;
+  color: #555;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* When checked (dark mode), swap which icon is visible */
+.theme-switch input:checked + .slider .sun {
+  opacity: 0; /* hide sun */
+}
+.theme-switch input:checked + .slider .moon {
+  opacity: 1; /* show moon */
+}
+
+html[data-bs-theme="dark"] .theme-switch .slider {
+  background: #444; /* darker track */
+}
+
+html[data-bs-theme="dark"] .theme-switch .slider::before {
+  background: #222; /* darker knob */
+}
+
+/* Optional: change icon colors a bit in dark mode */
+html[data-bs-theme="dark"] .theme-switch .slider .sun {
+  color: #bbb;
+}
+
+html[data-bs-theme="dark"] .theme-switch .slider .moon {
+  color: #ffeb3b;
+}
