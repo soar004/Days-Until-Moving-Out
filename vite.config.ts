@@ -2,10 +2,10 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig({
-  base: "/Days-Until-Moving-Out/", // your GitHub-Pages URL subpath
+  base: "/Days-Until-Moving-Out/",
   build: {
-    outDir: "docs", // write build into docs/
-    emptyOutDir: true, // remove old files in docs/ first
+    outDir: "docs",
+    emptyOutDir: true, // this causes docs/ to be wiped before each build
   },
   plugins: [react()],
 });
