@@ -5,13 +5,11 @@ function computePercent(start: Date, end: Date): number {
   const total = end.getTime() - start.getTime();
   if (total <= 0) return 100;
   const elapsed = Date.now() - start.getTime();
-  return Math.min(100, Math.max(0, Math.floor((elapsed / total) * 100)));
+  return Math.min(100, Math.floor((elapsed / total) * 100));
 }
 
 const ProgressBar: React.FC = () => {
-  const moveOutDate: Date = useMoveOutDate();
-
-  // persist a fixed start date
+  const moveOutDate = useMoveOutDate();
   const [startDate] = useState(() => {
     const saved = localStorage.getItem("moveOutStart");
     if (saved) return new Date(saved);
@@ -25,7 +23,6 @@ const ProgressBar: React.FC = () => {
   );
 
   useEffect(() => {
-    // recalc now, and then every minute
     setPercent(computePercent(startDate, moveOutDate));
     const id = setInterval(
       () => setPercent(computePercent(startDate, moveOutDate)),
@@ -35,13 +32,12 @@ const ProgressBar: React.FC = () => {
   }, [startDate, moveOutDate]);
 
   return (
-    <div className="d-flex justify-content-center my-4">
-      {/* full width until md, then 75% */}
-      <div className="progress w-100 w-md-75">
+    <div className="d-flex justify-content-center mt-4">
+      <div className="progress w-100">
         <div
-          className="progress-bar progress-bar-striped progress-bar-animated"
-          style={{ width: `${percent}%` }}
+          className="progress-bar bg-primary progress-w-auto"
           role="progressbar"
+          style={{ width: `${percent}%` }}
           aria-valuenow={percent}
           aria-valuemin={0}
           aria-valuemax={100}

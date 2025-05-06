@@ -1,4 +1,3 @@
-// src/components/Counter/Counter.tsx
 import React from "react";
 import { useMoveOutDate } from "../../hooks/useMoveOutDate";
 import { useCountdown } from "../../hooks/useCountdown";
@@ -18,16 +17,13 @@ const Counter: React.FC = () => {
   ];
 
   return (
-    <div className="container py-5">
-      <h2 className="text-center mb-4">Tid igjen å holde ut med Ragnhild</h2>
-
-      {/* → Use a row and responsive cols: */}
-      <div className="row justify-content-center">
+    <div className="mb-4">
+      <h4 className="fs-4 mb-4">Tid igjen å holde ut med Ragnhild</h4>
+      <div className="d-inline-flex gap-3">
         {units.map(({ label, value }) => (
-          // col-6 on xs (2 per row), col-sm-3 on sm+ (4 per row)
-          <div key={label} className="col-6 col-sm-3 text-center mb-3">
-            <div className="fs-1 fw-bold">{pad(value)}</div>
-            <div className="text-uppercase text-muted">{label}</div>
+          <div key={label} className="text-center">
+            <div className="fs-3 fw-bold">{pad(value)}</div>
+            <div className="small text-uppercase text-muted">{label}</div>
           </div>
         ))}
       </div>
