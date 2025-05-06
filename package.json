@@ -13,11 +13,14 @@
     "bootstrap": "^5.3.6",
     "canvas-confetti": "^1.9.3",
     "confetti": "^2.0.6",
+    "framer-motion": "^12.10.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "side-channel-weakmap": "^1.0.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
+    "@ljharb/tsconfig": "^0.3.2",
     "@types/canvas-confetti": "^1.9.0",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",

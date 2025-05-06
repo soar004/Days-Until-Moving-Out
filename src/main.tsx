@@ -1,13 +1,20 @@
+// src/main.tsx
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import "./index.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css"; // if you’re using Bootstrap
+import "./index.css"; // your own globals
+
+import MoveOutDateProvider from "./contexts/MoveOutDateContext";
 import App from "./App";
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
+
+root.render(
+  <React.StrictMode>
+    <MoveOutDateProvider>
+      <App />
+    </MoveOutDateProvider>
+  </React.StrictMode>
 );

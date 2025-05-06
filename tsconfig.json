@@ -1,15 +1,18 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ],
   "compilerOptions": {
-    "baseUrl": "./src",
+    "target": "es2021",
+    "module": "esnext",
+    "jsx": "react-jsx",
+    "strict": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".", // for absolute imports
     "paths": {
-      "hooks/*": ["hooks/*"],
-      "contexts/*": ["contexts/*"],
-      "components/*": ["components/*"]
+      "src/*": ["src/*"]
     }
-  }
+  },
+  "include": ["src", "vite-env.d.ts"],
+  "exclude": ["node_modules", "dist", "coverage"]
 }

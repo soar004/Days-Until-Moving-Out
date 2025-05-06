@@ -1,47 +1,31 @@
-// src/components/Counter.tsx
-import React, { useState, useEffect } from "react";
-
-interface TimeLeft {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-}
+// src/components/Counter/Counter.tsx
+import React from "react";
+import { useMoveOutDate } from "../../hooks/useMoveOutDate";
+import { useCountdown } from "../../hooks/useCountdown";
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-const Counter: React.FC<{ targetDate: string }> = ({ targetDate }) => {
-  const calculateTimeLeft = (): TimeLeft => {
-    const now = new Date();
-    const diff = Math.max(new Date(targetDate).getTime() - now.getTime(), 0);
-    return {
-      days: Math.floor(diff / 86400000),
-      hours: Math.floor((diff / 3600000) % 24),
-      minutes: Math.floor((diff / 60000) % 60),
-      seconds: Math.floor((diff / 1000) % 60),
-    };
-  };
-
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft());
-
-  useEffect(() => {
-    const id = setInterval(() => setTimeLeft(calculateTimeLeft()), 1000);
-    return () => clearInterval(id);
-  }, [targetDate]);
+const Counter: React.FC = () => {
+  const moveOutDate = useMoveOutDate();
+  const { timeLeft } = useCountdown(moveOutDate);
+  const { days, hours, minutes, seconds } = timeLeft;
 
   const units = [
-    { label: "dager", value: timeLeft.days },
-    { label: "timer", value: timeLeft.hours },
-    { label: "min", value: timeLeft.minutes },
-    { label: "sek", value: timeLeft.seconds },
+    { label: "dager", value: days },
+    { label: "timer", value: hours },
+    { label: "min", value: minutes },
+    { label: "sek", value: seconds },
   ];
 
   return (
     <div className="container py-5">
       <h2 className="text-center mb-4">Tid igjen å holde ut med Ragnhild</h2>
-      <div className="d-flex justify-content-center gap-4">
+
+      {/* → Use a row and responsive cols: */}
+      <div className="row justify-content-center">
         {units.map(({ label, value }) => (
-          <div key={label} className="text-center">
+          // col-6 on xs (2 per row), col-sm-3 on sm+ (4 per row)
+          <div key={label} className="col-6 col-sm-3 text-center mb-3">
             <div className="fs-1 fw-bold">{pad(value)}</div>
             <div className="text-uppercase text-muted">{label}</div>
           </div>
@@ -51,4 +35,4 @@ const Counter: React.FC<{ targetDate: string }> = ({ targetDate }) => {
   );
 };
 
-export default Counter;
+export default React.memo(Counter);

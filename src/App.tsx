@@ -1,14 +1,15 @@
-import "./App.css";
-import Counter from "./components/Counter";
+// src/App.tsx
+import React from "react";
+import Counter from "./components/Counter/Counter";
+import ProgressBar from "./components/ProgressBar/ProgressBar";
+import Confetti from "./components/Confetti/Confetti";
 
-function App() {
-  const moveOutDate = "2025-07-01T12:00:00";
-
-  return (
-    <div className="App">
-      <Counter targetDate={moveOutDate} />
-    </div>
-  );
-}
+const App: React.FC = () => (
+  <div className="container py-5">
+    <Counter />
+    <ProgressBar />
+    <Confetti />
+  </div>
+);
 
 export default App;
