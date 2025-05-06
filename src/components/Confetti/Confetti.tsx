@@ -1,5 +1,5 @@
 // src/components/Confetti/Confetti.tsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import confetti, { Options } from "canvas-confetti";
 import { useMoveOutDate } from "../../hooks/useMoveOutDate";
 import { useCountdown } from "../../hooks/useCountdown";
@@ -10,32 +10,51 @@ const Confetti: React.FC = () => {
     timeLeft: { days, hours, minutes, seconds },
   } = useCountdown(moveOutDate);
 
-  // Only fire confetti once, not every render after hitting zero
+  // Only fire confetti once
   const [hasFired, setHasFired] = useState(false);
 
-  useEffect(() => {
-    const allZero = days + hours + minutes + seconds === 0;
+  // Trigger confetti from multiple origins for full-screen effect
+  const triggerConfetti = useCallback(() => {
+    const defaults: Partial<Options> = {
+      particleCount: 150,
+      spread: 120,
+      startVelocity: 50,
+      ticks: 200,
+    };
 
+    // Fire from bottom left, bottom right, and top center
+    fireConfetti({
+      ...defaults,
+      origin: { x: 0.0, y: 0.8 },
+    });
+    fireConfetti({
+      ...defaults,
+      origin: { x: 1.0, y: 0.8 },
+    });
+    fireConfetti({
+      ...defaults,
+      origin: { x: 0.5, y: 0.2 },
+    });
+  }, []);
+
+  useEffect(() => {
+    const allZero = days + hours + minutes + seconds <= 0;
     if (allZero && !hasFired) {
-      // Tweak these options or call this multiple times for a bigger show
-      fireConfetti({ particleCount: 200, spread: 70, origin: { y: 0.6 } });
+      triggerConfetti();
       setHasFired(true);
     }
-  }, [days, hours, minutes, seconds, hasFired]);
+  }, [days, hours, minutes, seconds, hasFired, triggerConfetti]);
 
-  return null; // nothing to render in the DOM
+  return null;
 };
 
 export default React.memo(Confetti);
 
-// helper to centralize  confetti settings
+// Helper to fire confetti with default options, merging any provided overrides.
 function fireConfetti(opts: Partial<Options> = {}) {
   confetti({
-    particleCount: 150,
     angle: 90,
-    spread: 100,
-    startVelocity: 40,
-    ticks: 200,
+    // Center by default; overridden by any opts.origin passed in triggerConfetti
     origin: { x: 0.5, y: 0.5 },
     ...opts,
   });

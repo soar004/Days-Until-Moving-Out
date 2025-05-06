@@ -9,6 +9,8 @@ const MoveOutDateProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const moveOutDate = useMemo(() => new Date("2025-07-01T12:00:00"), []);
+  // const moveOutDate = useMemo(() => new Date(), []);
+
   return (
     <MoveOutDateContext.Provider value={moveOutDate}>
       {children}
