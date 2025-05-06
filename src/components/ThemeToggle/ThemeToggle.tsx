@@ -1,23 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useTheme } from "../../contexts/ThemeContext";
 
-const [dark, setDark] = useState(
-  () => localStorage.getItem("theme") === "dark"
-);
-useEffect(() => {
-  document.body.classList.toggle("bg-dark", dark);
-  localStorage.setItem("theme", dark ? "dark" : "light");
-}, [dark]);
+const ThemeToggle: React.FC = () => {
+  const { theme, toggle } = useTheme();
 
-// JSX switch
-<div className="form-check form-switch">
-  <input
-    className="form-check-input"
-    type="checkbox"
-    checked={dark}
-    onChange={() => setDark(!dark)}
-    id="themeSwitch"
-  />
-  <label className="form-check-label" htmlFor="themeSwitch">
-    {dark ? "Dark" : "Light"} Mode
-  </label>
-</div>;
+  return (
+    <button
+      type="button"
+      className="btn btn-outline-secondary btn-sm"
+      onClick={toggle}
+    >
+      {theme === "light" ? "🌙 Dark" : "☀️ Light"}
+    </button>
+  );
+};
+
+export default React.memo(ThemeToggle);
