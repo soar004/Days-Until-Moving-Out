@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://soar004.github.io/Days-Until-Moving-Out",
+  "homepage": "https://soar004.github.io/Days-Until-Moving-Out/",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
