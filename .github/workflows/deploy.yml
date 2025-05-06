@@ -1,26 +1,38 @@
-name: Deploy my site to GitHub Pages
+name: Build & Deploy Vite site to GitHub Pages
+
 on:
   push:
     branches: [main]
 
+permissions:
+  contents: read # for checkout
+  pages: write # to push to gh-pages
+  id-token: write # if you want to use the OIDC flow
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true # so the GH_TOKEN is available for the deploy step
+
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "18"
-      - name: Install deps
+
+      - name: Install dependencies
         run: npm ci
+
       - name: Build
-        run: npm run build # produces docs/ directory
-      - name: Deploy to GH Pages
+        run: npm run build # makes your /docs folder
+
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
           publish_dir: ./docs
-
-          # if your repo is user.github.io, you can omit the next line
-          # if you need a custom domain, you can specify it here too
