@@ -1,0 +1,42 @@
+name: Build & Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read # needed to checkout your code
+  pages: write # needed to publish to GitHub Pages
+  id-token: write # if you ever want to call other GH APIs
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true # <-- this is critical!
+
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for production
+        run: npm run build # this writes into `docs/`
+
+      - name: Create .nojekyll
+        run: touch docs/.nojekyll # prevent GitHub Pages from Jekyll-processing
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./docs

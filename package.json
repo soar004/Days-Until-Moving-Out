@@ -6,9 +6,9 @@
   "homepage": "https://soar004.github.io/Days-Until-Moving-Out/",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && touch docs/.nojekyll",
+    "build": "tsc -b && vite build",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d docs",
+    "deploy": "npm run build && gh-pages -d docs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
