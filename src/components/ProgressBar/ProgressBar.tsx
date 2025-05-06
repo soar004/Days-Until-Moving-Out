@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useMoveOutDate } from "../../hooks/useMoveOutDate";
 
 function computePercent(start: Date, end: Date): number {
@@ -22,22 +22,29 @@ const ProgressBar: React.FC = () => {
     computePercent(startDate, moveOutDate)
   );
 
-  useEffect(() => {
+  const updateProgress = useCallback(() => {
     setPercent(computePercent(startDate, moveOutDate));
-    const id = setInterval(
-      () => setPercent(computePercent(startDate, moveOutDate)),
-      60_000
-    );
-    return () => clearInterval(id);
   }, [startDate, moveOutDate]);
+
+  useEffect(() => {
+    // Update immediately in case time elapsed since render
+    updateProgress();
+
+    // Consider updating every second for smooth transitions when needed
+    const id = setInterval(updateProgress, 1000);
+    return () => clearInterval(id);
+  }, [updateProgress]);
 
   return (
     <div className="d-flex justify-content-center mt-4">
-      <div className="progress w-100">
+      <div
+        className="progress w-100"
+        aria-label="Progress towards move-out date"
+      >
         <div
           className="progress-bar bg-primary progress-w-auto"
           role="progressbar"
-          style={{ width: `${percent}%` }}
+          style={{ width: `${percent}%`, transition: "width 0.5s ease-in-out" }}
           aria-valuenow={percent}
           aria-valuemin={0}
           aria-valuemax={100}
